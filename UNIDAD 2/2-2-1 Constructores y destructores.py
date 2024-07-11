@@ -5,10 +5,10 @@ class Libro:
         self.titulo = titulo
         self.autor = autor
         self.numerohojas = numerohojas
-        print(f"contructor '{self.titulo}' ")
+        print(f"constructor '{self.titulo}' ")
     def __del__(self):
         print("Se destruye ")
-
+# instanciar
 mi_libro = Libro("Cien años de soledad ","Don Quijote ",450)
 
 del mi_libro
