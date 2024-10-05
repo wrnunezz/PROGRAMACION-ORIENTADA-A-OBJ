@@ -1,4 +1,5 @@
-
+import os
+from os import path
 # clase Producto
 class Producto:
     def __init__(self,id, nombre,cantidad, precio):
@@ -12,61 +13,61 @@ class Producto:
 
 class Inventario:
     def __init__(self):
-        self.productos = []
+        self.productos = {}
         self.cargar_inventario()
     def cargar_inventario(self):
-        with open('Inventario_Mejorado.txt', 'r') as file:
-            for line in file:
-                id, nombre, cantidad, precio = line.strip().split(',')
-                self.productos.append(Producto(id, nombre, cantidad, float(precio)))
+        try:
+            if not os.path.exists('Inventario_Mejorado.txt'):
+                with open('Inventario_Mejorado.txt','w') as file:
+                    file.write('ID,nombre,cantidad,precio\n')
+            else:
+               with open('Inventario_Mejorado.txt', 'r', encoding='utf-8') as file:
+                for line in file:
+                    id, nombre, cantidad, precio = line.strip().split(',')
+                    self.productos[id] = Producto(id, nombre, cantidad, precio)
+        except FileNotFoundError:
+            print('Inventario no encontrado')
 
     def guardar_inventario(self):
-        with open('Inventario_Mejorado.txt', 'w') as file:
-            for producto in self.productos:
+        with open('Inventario_Mejorado.txt', 'w', encoding='utf-8') as file:
+            for producto in self.productos.values():
                 file.write(f'{producto.id},{producto.nombre},{producto.cantidad},{producto.precio}\n')
 
     def agregar_producto(self, producto):
-        self.productos.append(producto)
-        self.guardar_inventario()
-        print('Producto agregado exitosamente')
+        if producto.id in self.productos:
+            print(f'Producto {producto.id} ya existe')
+        else:
+            self.productos[producto.id] = producto
+            self.guardar_inventario()
+            print('Producto agregado exitosamente')
 
     def eliminar_producto(self, id):
-
-        for producto in self.productos:
-            if producto.id == id:
-                self.productos.remove(producto)
-                self.guardar_inventario()
-                print("Se elimino un producto ")
+        if id in self.productos:
+            del self.productos[id]
+            self.guardar_inventario()
+            print('Producto eliminado exitosamente')
+        else:
+            print('Producto no encontrado')
     def actualizar_precio(self,id, precio):
-        for producto in self.productos:
-            if producto.id == id:
-                producto.precio = precio
-                print('Producto actualizado exitosamente')
+        if id in self.productos:
+            self.productos[id].precio = precio
+            self.guardar_inventario()
+            print('Producto actualizado exitosamente')
+        else:
+            print('Producto no encontrado')
 
     def buscar_producto_nombre(self, nombre):
-        for producto in self.productos:
-            if producto.nombre == nombre:
+        for producto in self.productos.values():
+            if producto.nombre.lower() == nombre.lower():
                 return producto
 
     def mostrar_inventario(self):
-        for producto in self.productos:
+        for producto in self.productos.values():
             print(producto)
 
 
 mi_inventario = Inventario()
 
-"""
-producto = Producto(1,"Camiseta",2,25)
-#print(producto.id, producto.nombre, producto.precio)
-
-mi_inventario.agregar_producto(producto)
-mi_inventario.mostrar_inventario()
-
-####actualizacion del precio
-
-mi_inventario.actualizar_precio(1,100)
-mi_inventario.mostrar_inventario()
-"""
 def Menu():
     while True:
         print('Menu')
@@ -93,7 +94,7 @@ def Menu():
             print("Producto eliminado")
 
         elif opcion == 3:
-            print("\nActaulizar ")
+            print("\nActualizar ")
             id = int(input("Ingrese el ID del producto a actualizar: "))
             precio = float(input("Ingrese precio del producto: "))
             mi_inventario.actualizar_precio(id, precio)
@@ -104,8 +105,11 @@ def Menu():
             print("\nBuscar Nombre")
             nombre = input("Ingrese el nombre del producto: ")
             producto = mi_inventario.buscar_producto_nombre(nombre)
-            print("Nombre buscado")
-            print(producto.id, producto.nombre, producto.precio)
+            if producto is not None:
+                print(f'ID: {producto.id}, Nombre: {producto.nombre}')
+            else:
+                print("Producto no encontrado")
+           # print(producto.id, producto.nombre, producto.precio)
 
         elif opcion == 5:
             print("\nInventario ")

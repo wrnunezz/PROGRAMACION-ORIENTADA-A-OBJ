@@ -61,7 +61,7 @@ def Menu():
         print("1. Agregar producto")
         print("2. Eliminar producto")
         print("3. Actualizar Precio")
-        print("4. Buscar producto por nombre")
+        print("4.2 Contenedores. Buscar producto por nombre")
         print("5. Mostrar Inventario")
         print("6. Salir")
 

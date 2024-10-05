@@ -59,9 +59,9 @@ def Menu():
         print("1. Agregar producto")
         print("2. Eliminar producto")
         print("3. Actualizar Inventario")
-        print("4. buscar producto por nombre ")
+        print("4.2 Contenedores. buscar producto por nombre ")
         print("5. Mostrar Inventario")
-        print('4 - Salir')
+        print('4.2 Contenedores - Salir')
 
         opcion = int(input("Ingrese una opcion: "))
         if opcion == 1:

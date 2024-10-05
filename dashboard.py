@@ -21,7 +21,7 @@ def mostrar_menu():
         '1': 'UNIDAD 1/1.2. Tecnicas de Programacion/Herencia/herencia.py',
         '2': 'UNIDAD 1/1.2. Tecnicas de Programacion/Polimorfismo/poli.py',
         '3': 'UNIDAD 2/1.1 Tipos de datos, Identificadores.py',
-        '4': 'UNIDAD 2/1.2. Clases, Objetos, Herencia, Encapsulamiento y Polimorfismo.py',
+        '4.2 Contenedores': 'UNIDAD 2/1.2. Clases, Objetos, Herencia, Encapsulamiento y Polimorfismo.py',
         # Agrega aquí el resto de las rutas de los scripts
     }
 
